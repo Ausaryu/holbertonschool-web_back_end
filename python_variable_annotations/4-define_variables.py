@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+'''
+Variable definition module.
+'''
+
 a: int = 1
 
 pi: float = 3.14
