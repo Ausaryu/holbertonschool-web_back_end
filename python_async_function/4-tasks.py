@@ -8,11 +8,15 @@ from typing import List
 task_wait_random = __import__('3-tasks').task_wait_random
 
 
-async def task_wait_n(n: int, max_delay: int) -> List[float]:
+async def wait_n(n: int, max_delay: int) -> List[float]:
     '''
-    Executes task_wait_random n times and returns the delays in ascending order
+    Executes wait_random n times and returns the delays in ascending order.
     '''
     tasks = [task_wait_random(max_delay) for _ in range(n)]
-    results = await asyncio.gather(*tasks)
-    results.sort()
+    results = []
+
+    for completed in asyncio.as_completed(tasks):
+        result = await completed
+        results.append(result)
+
     return results
