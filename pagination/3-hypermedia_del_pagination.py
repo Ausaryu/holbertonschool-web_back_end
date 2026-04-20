@@ -37,31 +37,30 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(
-        self, index: Optional[int] = None, page_size: int = 10
-    ) -> Dict[str, Any]:
-        """Return deletion-resilient hypermedia pagination metadata."""
+        self, index: int = None, page_size: int = 10
+    ) -> Dict:
+        """Return a deletion-resilient pagination dictionary."""
         if index is None:
             index = 0
 
         assert isinstance(index, int) and index >= 0
         assert isinstance(page_size, int) and page_size > 0
 
-        indexed_dataset = self.indexed_dataset()
-        max_index = max(indexed_dataset.keys(), default=0)
-        assert index < len(indexed_dataset)
+        indexed_data = self.indexed_dataset()
+        assert index < len(indexed_data)
 
-        data: List[List[str]] = []
-        current_index = index
+        data = []
+        next_index = index
+        max_index = max(indexed_data.keys())
 
-        while len(data) < page_size and current_index <= max_index:
-            row = indexed_dataset.get(current_index)
-            if row is not None:
-                data.append(row)
-            current_index += 1
+        while len(data) < page_size and next_index <= max_index:
+            if next_index in indexed_data:
+                data.append(indexed_data[next_index])
+            next_index += 1
 
         return {
             "index": index,
-            "next_index": current_index,
+            "next_index": next_index,
             "page_size": len(data),
-            "data": data,
+            "data": data
         }
