@@ -25,13 +25,15 @@ class Server:
 
         return self.__dataset
 
-    def indexed_dataset(self) -> Dict[int, List[str]]:
-        """Return dataset indexed by sorted position starting from 0."""
+    def indexed_dataset(self) -> Dict[int, List]:
+        """Dataset indexed by sorting position, starting at 0
+        """
         if self.__indexed_dataset is None:
             dataset = self.dataset()
+            truncated_dataset = dataset[:1000]
             self.__indexed_dataset = {
                 i: dataset[i] for i in range(len(dataset))
-                }
+            }
         return self.__indexed_dataset
 
     def get_hyper_index(
