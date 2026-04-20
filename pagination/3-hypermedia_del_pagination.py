@@ -2,7 +2,7 @@
 """Deletion-resilient hypermedia pagination for the baby names dataset."""
 
 import csv
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 
 class Server:
@@ -37,8 +37,8 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(
-        self, index: Optional[int] = None, page_size: int = 10
-    ) -> Dict[str, Any]:
+        self, index: int = None, page_size: int = 10
+    ) -> Dict:
         """Return deletion-resilient hypermedia pagination metadata."""
         if index is None:
             index = 0
