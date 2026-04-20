@@ -48,7 +48,7 @@ class Server:
 
         indexed_dataset = self.indexed_dataset()
         max_index = max(indexed_dataset.keys(), default=0)
-        assert index <= max_index
+        assert index < len(indexed_dataset)
 
         data: List[List[str]] = []
         current_index = index
@@ -61,7 +61,7 @@ class Server:
 
         return {
             "index": index,
-            "data": data,
-            "page_size": len(data),
             "next_index": current_index,
+            "page_size": len(data),
+            "data": data,
         }
