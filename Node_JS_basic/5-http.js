@@ -60,7 +60,7 @@ const app = http.createServer((req, res) => {
         res.end('Cannot load the database');
       });
   } else {
-    res.end('404 page not found');
+    res.end('Hello Holberton School!');
   }
 });
 
