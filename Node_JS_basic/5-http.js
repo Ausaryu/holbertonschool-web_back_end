@@ -1,23 +1,6 @@
 const http = require('http');
 const fs = require('fs');
 
-const app = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.end('Hello Holberton School!');
-  } else if (req.url === '/students') {
-    countStudents(process.argv[2])
-      .then((data) => {
-        res.end(`This is the list of our students\n${data}`);
-      })
-      .catch(() => {
-        res.end('Cannot load the database');
-      });
-  } else {
-    res.end('404 page not found');
-  }
-});
-
-
 function countStudents(path) {
   return new Promise((resolve, reject) => {
     fs.readFile(path, 'utf8', (err, data) => {
@@ -38,7 +21,7 @@ function countStudents(path) {
         const student = {};
 
         headers.forEach((header, index) => {
-          student[header] = values[index];
+          student[header.trim()] = values[index].trim();
         });
 
         return student;
@@ -64,6 +47,22 @@ function countStudents(path) {
     });
   });
 }
+
+const app = http.createServer((req, res) => {
+  if (req.url === '/') {
+    res.end('Hello Holberton School!');
+  } else if (req.url === '/students') {
+    countStudents(process.argv[2])
+      .then((data) => {
+        res.end(`This is the list of our students\n${data}`);
+      })
+      .catch(() => {
+        res.end('Cannot load the database');
+      });
+  } else {
+    res.end('404 page not found');
+  }
+});
 
 app.listen(1245);
 
