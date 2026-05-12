@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-function countStudents() {
-  fs.readFile('database.csv', 'utf8', (err, data) => {
+function countStudents(path) {
+  fs.readFile(path, 'utf8', (err, data) => {
     if (err) {
       console.error(err);
       return;
@@ -9,10 +9,10 @@ function countStudents() {
 
     const lines = data.trim().split('\n');
 
-    const headers = lines[0].split(',');
+    const headers = lines[0].trim().split(',');
 
     const students = lines.slice(1).map((line) => {
-      const values = line.split(',');
+      const values = line.trim().split(',');
 
       const student = {};
 
