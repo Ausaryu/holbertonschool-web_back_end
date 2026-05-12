@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function countStudents () {
+function countStudents() {
   fs.readFile('database.csv', 'utf8', (err, data) => {
     if (err) {
       console.error(err);
