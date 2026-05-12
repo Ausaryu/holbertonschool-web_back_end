@@ -1,31 +1,29 @@
 const fs = require('fs');
 
-function countStudents() {
+function countStudents () {
+  fs.readFile('database.csv', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
 
-fs.readFile('database.csv', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
+    const lines = data.trim().split('\n');
 
-  const lines = data.trim().split('\n');
+    const headers = lines[0].split(',');
 
-  const headers = lines[0].split(',');
+    const students = lines.slice(1).map((line) => {
+      const values = line.split(',');
 
-  const students = lines.slice(1).map((line) => {
-    const values = line.split(',');
+      const student = {};
 
-    const student = {};
+      headers.forEach((header, index) => {
+        student[header] = values[index];
+      });
 
-    headers.forEach((header, index) => {
-      student[header] = values[index];
+      return student;
     });
 
-    return student;
-  });
-
     const fields = {};
-
 
     students.forEach((student) => {
       fields[student.field] = (fields[student.field] || 0) + 1;
@@ -34,9 +32,8 @@ fs.readFile('database.csv', 'utf8', (err, data) => {
     console.log(`Number of students: ${students.length}`);
 
     for (field in fields) {
-      console.log(`Number of students in ${field}: ${fields[field]}`)
+      console.log(`Number of students in ${field}: ${fields[field]}`);
     }
-
   });
 }
 
