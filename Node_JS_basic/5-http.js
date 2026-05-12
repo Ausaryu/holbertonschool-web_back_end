@@ -57,10 +57,10 @@ const app = http.createServer((req, res) => {
         res.end(`This is the list of our students\n${data}`);
       })
       .catch(() => {
-        res.end('Cannot load the database');
+        res.end('This is the list of our students\nCannot load the database');
       });
   } else {
-    res.end('Hello Holberton School!');
+    res.end('404 Not Found');
   }
 });
 
