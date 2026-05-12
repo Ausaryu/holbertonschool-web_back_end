@@ -1,4 +1,4 @@
-const stdin = process.stdin;
+const { stdin } = process;
 
 process.stdout.write('Welcome to Holberton School, what is your name?\n');
 
