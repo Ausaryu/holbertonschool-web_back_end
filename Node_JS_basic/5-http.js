@@ -26,7 +26,9 @@ function countStudents(path) {
         return;
       }
 
-      const lines = data.trim().split('\n');
+      const lines = data
+        .split('\n')
+        .filter((line) => line.trim() !== '');
 
       const headers = lines[0].trim().split(',');
 
