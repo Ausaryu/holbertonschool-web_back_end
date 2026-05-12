@@ -23,19 +23,23 @@ function countStudents(path) {
       return student;
     });
 
+    console.log(`Number of students: ${students.length}`);
+    
     const fields = {};
 
     students.forEach((student) => {
-      fields[student.field] = (fields[student.field] || 0) + 1;
+      if (!fields[student.field]) {
+        fields[student.field] = [];
+      }
+
+      fields[student.field].push(student.firstname);
     });
 
-    console.log(`Number of students: ${students.length}`);
-
-    for (const field in fields) {
-      if (Object.prototype.hasOwnProperty.call(fields, field)) {
-        console.log(`Number of students in ${field}: ${fields[field]}`);
-      }
-    }
+    Object.entries(fields).forEach(([field, names]) => {
+      console.log(
+        `Number of students in ${field}: ${names.length}. List: ${names.join(', ')}`
+      );
+    });
   });
 }
 
