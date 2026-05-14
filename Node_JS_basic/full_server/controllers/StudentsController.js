@@ -2,8 +2,7 @@ import readDatabase from '../utils';
 
 class StudentsController {
   static getAllStudents(request, response) {
-    const { database } = request.app.locals;
-    return readDatabase(database)
+    return readDatabase(process.argv[2])
       .then((data) => {
         let output = 'This is the list of our students\n';
 
@@ -22,13 +21,12 @@ class StudentsController {
 
   static getAllStudentsByMajor(request, response) {
     const { major } = request.params;
-    const { database } = request.app.locals;
 
     if (!(major === 'CS' || major === 'SWE')) {
       return response.status(500).send('Major parameter must be CS or SWE');
     }
 
-    return readDatabase(database)
+    return readDatabase(process.argv[2])
       .then((data) => {
         const names = data[major];
 
