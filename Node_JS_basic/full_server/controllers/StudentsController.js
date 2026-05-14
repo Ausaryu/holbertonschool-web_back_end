@@ -3,7 +3,7 @@ import readDatabase from '../utils';
 class StudentsController {
   static getAllStudents(request, response) {
     const { database } = request.app.locals;
-    readDatabase(database)
+    return readDatabase(database)
       .then((data) => {
         let output = 'This is the list of our students\n';
 
