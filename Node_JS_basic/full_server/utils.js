@@ -1,14 +1,16 @@
-const fs = require('fs');
+import fs from 'fs';
 
-function countStudents (path) {
+function readDatabase(filePath) {
   return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf8', (err, data) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
-        reject(new Error('Cannot load the database'));
+        reject(err);
         return;
       }
 
-      const lines = data.trim().split('\n');
+      const lines = data
+        .split('\n')
+        .filter((line) => line.trim() !== '');
 
       const headers = lines[0].trim().split(',');
 
@@ -18,7 +20,7 @@ function countStudents (path) {
         const student = {};
 
         headers.forEach((header, index) => {
-          student[header] = values[index];
+          student[header.trim()] = values[index].trim();
         });
 
         return student;
@@ -34,17 +36,9 @@ function countStudents (path) {
         fields[student.field].push(student.firstname);
       });
 
-      let output = `Number of students: ${students.length}\n`;
-
-      Object.entries(fields).forEach(([field, names]) => {
-        output += `Number of students in ${field}: ${names.length}. List: ${names.join(', ')}\n`;
-      });
-
-      console.log(output.trim());
-
-      resolve(output.trim());
+      resolve(fields);
     });
   });
 }
 
-module.exports = countStudents;
+export default readDatabase;
